@@ -1,0 +1,10 @@
+{
+  "name": "Eterno",
+  "short_name": "Eterno",
+  "description": "Eterno - Doctor led, AI-Driven Platform to reverse chronic lifestyle diseases",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#fdf2f8",
+  "theme_color": "#6366f1",
+  "icons": []
+}

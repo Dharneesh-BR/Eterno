@@ -1,0 +1,26 @@
+{
+  "name": "eterno",
+  "short_name": "eterno",
+  "description": "eterno - Your Space for Healing, Growth & Inner Transformation",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#fdf2f8",
+  "theme_color": "#6366f1",
+  "icons": [
+    {
+      "src": "assets/Logo_2.png?v=1",
+      "sizes": "180x180",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/Logo_2.png?v=1",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/Logo_2.png?v=1",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

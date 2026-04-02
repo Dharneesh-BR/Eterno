@@ -1,0 +1,218 @@
+[build]
+command = "npm run build"
+publish = "dist"
+functions = "netlify/functions"
+
+# ===============================
+
+# FORCE SITEMAP + ROBOTS (CRITICAL - MUST BE FIRST)
+
+# ===============================
+
+[[redirects]]
+from = "/sitemap.xml"
+to = "/sitemap.xml"
+status = 200
+force = true
+
+[[redirects]]
+from = "/robots.txt"
+to = "/robots.txt"
+status = 200
+force = true
+
+# ===============================
+
+# HEADERS (SEO + CORRECT MIME TYPES)
+
+# ===============================
+
+[[headers]]
+for = "/sitemap.xml"
+[headers.values]
+Content-Type = "application/xml"
+Cache-Control = "no-cache"
+
+[[headers]]
+for = "/robots.txt"
+[headers.values]
+Content-Type = "text/plain"
+Cache-Control = "no-cache"
+
+# ===============================
+
+# API FUNCTIONS
+
+# ===============================
+
+[[redirects]]
+from = "/api/*"
+to = "/.netlify/functions/:splat"
+status = 200
+
+# ===============================
+
+# SPA ROUTES (REACT ROUTER)
+
+# ===============================
+
+[[redirects]]
+from = "/blog/*"
+to = "/index.html"
+status = 200
+
+[[redirects]]
+from = "/store/*"
+to = "/index.html"
+status = 200
+
+[[redirects]]
+from = "/decode"
+to = "/index.html"
+status = 200
+
+[[redirects]]
+from = "/balance"
+to = "/index.html"
+status = 200
+
+[[redirects]]
+from = "/gut"
+to = "/index.html"
+status = 200
+
+[[redirects]]
+from = "/contact"
+to = "/index.html"
+status = 200
+
+[[redirects]]
+from = "/about"
+to = "/index.html"
+status = 200
+
+[[redirects]]
+from = "/community"
+to = "/index.html"
+status = 200
+
+[[redirects]]
+from = "/partner"
+to = "/index.html"
+status = 200
+
+[[redirects]]
+from = "/research"
+to = "/index.html"
+status = 200
+
+[[redirects]]
+from = "/privacy-policy"
+to = "/index.html"
+status = 200
+
+[[redirects]]
+from = "/terms-and-conditions"
+to = "/index.html"
+status = 200
+
+[[redirects]]
+from = "/refund-and-cancellation"
+to = "/index.html"
+status = 200
+
+[[redirects]]
+from = "/shipping-and-delivery"
+to = "/index.html"
+status = 200
+
+[[redirects]]
+from = "/ad-decode-diabetes"
+to = "/index.html"
+status = 200
+
+[[redirects]]
+from = "/diabetes-landing"
+to = "/index.html"
+status = 200
+
+# ===============================
+
+# GLOBAL SPA FALLBACK (OPTIONAL BUT SAFE)
+
+# ===============================
+
+[[redirects]]
+from = "/*"
+to = "/index.html"
+status = 200
+
+# ===============================
+
+# PERFORMANCE HEADERS
+
+# ===============================
+
+[[headers]]
+for = "/assets/*"
+[headers.values]
+Cache-Control = "public, max-age=31536000, immutable"
+X-Content-Type-Options = "nosniff"
+
+[[headers]]
+for = "/*.js"
+[headers.values]
+Cache-Control = "public, max-age=31536000, immutable"
+X-Content-Type-Options = "nosniff"
+
+[[headers]]
+for = "/*.css"
+[headers.values]
+Cache-Control = "public, max-age=31536000, immutable"
+X-Content-Type-Options = "nosniff"
+
+[[headers]]
+for = "/*.webp"
+[headers.values]
+Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+for = "/*.jpg"
+[headers.values]
+Cache-Control = "public, max-age=2592000, immutable"
+
+[[headers]]
+for = "/*.png"
+[headers.values]
+Cache-Control = "public, max-age=2592000, immutable"
+
+[[headers]]
+for = "/*.ico"
+[headers.values]
+Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+for = "/sw.js"
+[headers.values]
+Cache-Control = "public, max-age=0, must-revalidate"
+Content-Type = "application/javascript"
+
+[[headers]]
+for = "/*.html"
+[headers.values]
+Cache-Control = "public, max-age=3600, must-revalidate"
+
+# ===============================
+
+# SECURITY HEADERS
+
+# ===============================
+
+[[headers]]
+for = "/(.*)"
+[headers.values]
+X-Frame-Options = "DENY"
+X-XSS-Protection = "1; mode=block"
+X-Content-Type-Options = "nosniff"
+Referrer-Policy = "strict-origin-when-cross-origin"
+Permissions-Policy = "camera=(), microphone=(), geolocation=()"

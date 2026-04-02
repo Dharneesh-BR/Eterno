@@ -1,0 +1,66 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .svasam-card {
+    @apply rounded-xl border border-white/60 bg-gradient-to-t from-[#E9D5FF]/70 via-[#F7EEF5] to-white shadow-[0_10px_25px_-12px_rgba(17,24,39,0.35)] backdrop-blur-sm transition-all duration-300;
+  }
+
+  .svasam-card-hover {
+    @apply hover:-translate-y-0.5 hover:shadow-[0_16px_35px_-14px_rgba(17,24,39,0.45)];
+  }
+
+  .svasam-card-soft {
+    @apply rounded-lg border border-gray-200/70 bg-gradient-to-t from-[#E9D5FF]/70 via-[#F7EEF5] to-white shadow-[0_8px_20px_-14px_rgba(17,24,39,0.3)] transition-all duration-300;
+  }
+}
+
+/* Force white color for Manifest Abundance heading */
+.manifest-heading h1 {
+  color: white !important;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: linear-gradient(135deg, #1a0b2e 0%, #2d1b69 25%, #6b21a8 50%, #c026d3 75%, #e879f9 100%);
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-size: cover;
+  min-height: 100vh;
+}
+
+
+/* Utility: hide scrollbars (keeps scrolling functional) */
+.no-scrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
+/* Prevent horizontal scrollbars */
+html, body {
+  overflow-x: hidden;
+  max-width: 100vw;
+}
+
+/* Ensure all containers respect viewport */
+* {
+  box-sizing: border-box;
+}
+
+/* Prevent content overflow */
+.layout-container {
+  overflow-x: hidden;
+  overflow-y: auto;
+  max-width: 100%;
+}
+
+/* Fix for specific problematic elements */
+.overflow-fix {
+  overflow-x: hidden;
+  word-wrap: break-word;
+  max-width: 100%;
+}

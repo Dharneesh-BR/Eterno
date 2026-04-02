@@ -1,0 +1,16 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://eterno.fit/sitemap.xml
+
+# Block unnecessary/private areas
+Disallow: /admin/
+Disallow: /private/
+Disallow: /src/
+Disallow: /node_modules/
+Disallow: /.git/
+
+# Optional: block build files if exposed
+Disallow: /dist/
+
