@@ -13,7 +13,7 @@ const SEO = ({
   canonicalUrl = null
 }) => {
   const location = useLocation();
-  const baseUrl = 'https://eterno.fit';
+  const baseUrl = import.meta.env.VITE_SITE_URL || (import.meta.env.PROD ? 'https://eterno.fit' : 'http://localhost:3000');
   const currentUrl = canonicalUrl || `${baseUrl}${location.pathname}${location.search}`;
 
   const defaultTitle = 'Eterno - Your Space for Healing, Growth & Inner Transformation';

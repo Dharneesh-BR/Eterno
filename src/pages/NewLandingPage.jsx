@@ -1499,7 +1499,7 @@ const NewLandingPage = () => {
         {/* Booking Modal */}
         {showBookingForm && (
           <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-            <div className="bg-white rounded-2xl p-8 max-w-md w-full">
+            <div className="bg-white rounded-2xl p-8 max-w-md w-full max-h-[90vh] overflow-y-auto">
               <div className="flex justify-between items-center mb-6">
                 <h3 className="text-xl font-bold text-gray-800">
                   Start Your Journey <span className='text-purple-600'>in 4 Simple Steps</span>
@@ -1753,16 +1753,16 @@ const NewLandingPage = () => {
             </div>
 
             {/* Next Steps */}
-            <div className="bg-purple-50 rounded-lg p-4">
+            <div className="bg-purple-50 rounded-lg p-4 mb-4">
               <h5 className="font-semibold text-purple-800 mb-3">What's Next?</h5>
               <ul className="space-y-2 text-sm text-gray-700">
                 <li className="flex items-start gap-2">
                   <span className="text-purple-600 mt-1">1.</span>
-                  <span>Download the Eterno app from Apple App Store or Google Play Store</span>
+                  <span>Download Eterno app from Apple App Store or Google Play Store</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-purple-600 mt-1">2.</span>
-                  <span>Login with the same mobile number used for payment</span>
+                  <span>Login with same mobile number used for payment</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <span className="text-purple-600 mt-1">3.</span>
@@ -1777,6 +1777,28 @@ const NewLandingPage = () => {
                   <span>Our Diabetes Expert will call you for further steps</span>
                 </li>
               </ul>
+            </div>
+
+            {/* WhatsApp Group Section */}
+            <div className="bg-green-50 rounded-lg p-4 border border-green-200">
+              <h5 className="font-semibold text-green-800 mb-3">Join Our Community</h5>
+              <p className="text-sm text-gray-700 mb-3">
+                Follow this link to join my WhatsApp group for support and updates:
+              </p>
+              <a 
+                href="https://chat.whatsapp.com/Lj8BBhXh5d5Chg8BQKjvpw?mode=gi_t"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition-colors duration-300 font-medium text-sm"
+              >
+                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.149-.67.149-.197 0-.397.149-.596.298-.297.149-.596.447-.893.596-.297.149-.496.099-.694-.099-.199-.099-.496-.298-.893-.496-.397-.199-.893-.397-1.49-.397-.992 0-1.78.298-2.36.894-.58.596-.893 1.291-1.091 2.086-.198.795-.297 1.69-.297 2.585 0 .992.099 1.887.297 2.585.198.695.496 1.291 1.091 1.887.58.596 1.38.894 2.36.894.596 0 1.091-.099 1.49-.397.397-.298.596-.496.893-.496.297 0 .496.099.694.099.199 0 .397-.099.67-.298.273-.099 1.733-.818 2.03-.967.297-.149.496-.298.596-.447.099-.149.099-.397 0-.596-.149-.199-.149-.397-.298-.596-.447-.297-.149-.596-.447-.893-.596-.297-.149-.496-.099-.694.099-.199.099-.496.298-.893.496-.397.199-.893.397-1.49.397-.992 0-1.78-.298-2.36-.894-.58-.596-.893-1.291-1.091-2.086-.198-.795-.297-1.69-.297-2.585 0-.992.099-1.887.297-2.585.198-.695.496-1.291 1.091-1.887.58-.596 1.38-.894 2.36-.894.596 0 1.091.099 1.49.397.397.298.596.496.893.496.297 0 .496-.099.694-.099.199 0 .397.099.67.298.273.099 1.733.818 2.03.967.297.149.496.298.596.447.099.149.099.397 0 .596-.149.199-.149.397-.298.596-.447z"/>
+                </svg>
+                Join WhatsApp Group
+              </a>
+              <p className="text-xs text-gray-500 mt-2">
+                Get daily tips, motivation, and support from fellow members
+              </p>
             </div>
           </div>
         </div>
