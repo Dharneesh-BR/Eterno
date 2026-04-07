@@ -77,7 +77,7 @@ const NewLandingPage = () => {
     // Create Razorpay checkout options with error handling
     const options = {
       key: import.meta.env.VITE_RAZORPAY_KEY_ID,
-      amount: 100, // Amount in paise (₹1 for testing)
+      amount: 69900, // Amount in paise (₹699)
       currency: 'INR',
       name: formData.name,
       description: 'Decode Diabetes Program Consultation',
@@ -219,7 +219,7 @@ const NewLandingPage = () => {
               <br />
               Doctor led, AI powered Precision care starting at just 
               <br /><br/>
-              <span className="text-4xl md:text-4xl font-bold text-purple-600">Rs 1/- (Test Mode)<br/><span className='text-gray-800 text-2xl'>for 100 Days Program</span></span>
+              <span className="text-4xl md:text-4xl font-bold text-purple-600">Rs 699/-<br/><span className='text-gray-800 text-2xl'>for 100 Days Program</span></span>
             </p>
             
             <button 
@@ -664,7 +664,7 @@ const NewLandingPage = () => {
                   100 Days subscription <br/>at just 
                 </p>
                 <div className="flex items-center justify-center gap-8 mb-8">
-                  <span className="text-5xl md:text-5xl font-bold text-white drop-shadow-lg">Rs 1/- (Test)</span>
+                  <span className="text-5xl md:text-5xl font-bold text-white drop-shadow-lg">Rs 699/-</span>
                   
                 </div>
                 
@@ -1093,7 +1093,7 @@ const NewLandingPage = () => {
               </div>
               
               <div className="bg-purple-600 text-white rounded-lg text-xl py-8 font-bold mt-8 mb-4">
-                        All features listed above <br/>are included in 100 Days subscription at just<br/> Rs 1/- (Test Mode). <br/>without any hidden charges
+                        All features listed above <br/>are included in 100 Days subscription at just<br/> Rs 699/- <br/>without any hidden charges
                       </div>
                    
             </div>
@@ -1369,7 +1369,7 @@ const NewLandingPage = () => {
                   100 Days subscription <br/>at just 
                 </p>
                 <div className="flex items-center justify-center gap-8 mb-8">
-                  <span className="text-5xl md:text-5xl font-bold text-white drop-shadow-lg">Rs 1/- (Test)</span>
+                  <span className="text-5xl md:text-5xl font-bold text-white drop-shadow-lg">Rs 699/-</span>
                   
                 </div>
                 <span className="bg-gradient-to-r from-yellow-400 to-orange-400 text-purple-900 px-4 py-2 mb-4 rounded-full text-xl font-bold shadow-lg transform hover:scale-105 transition-all">82% Off</span>
@@ -1633,7 +1633,7 @@ const NewLandingPage = () => {
                   type="submit"
                   className="w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white py-3 rounded-lg font-semibold hover:from-purple-700 hover:to-blue-700 transition-all duration-300 transform hover:scale-105 shadow-lg"
                 >
-                  Proceed to Payment - ₹1 (Test Mode)
+                  Proceed to Payment - ₹699
                 </button>
                 
                 <div className="mt-6 p-4 bg-green-50 rounded-lg border border-green-200">
@@ -1791,9 +1791,11 @@ const NewLandingPage = () => {
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition-colors duration-300 font-medium text-sm"
               >
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.149-.67.149-.197 0-.397.149-.596.298-.297.149-.596.447-.893.596-.297.149-.496.099-.694-.099-.199-.099-.496-.298-.893-.496-.397-.199-.893-.397-1.49-.397-.992 0-1.78.298-2.36.894-.58.596-.893 1.291-1.091 2.086-.198.795-.297 1.69-.297 2.585 0 .992.099 1.887.297 2.585.198.695.496 1.291 1.091 1.887.58.596 1.38.894 2.36.894.596 0 1.091-.099 1.49-.397.397-.298.596-.496.893-.496.297 0 .496.099.694.099.199 0 .397-.099.67-.298.273-.099 1.733-.818 2.03-.967.297-.149.496-.298.596-.447.099-.149.099-.397 0-.596-.149-.199-.149-.397-.298-.596-.447-.297-.149-.596-.447-.893-.596-.297-.149-.496-.099-.694.099-.199.099-.496.298-.893.496-.397.199-.893.397-1.49.397-.992 0-1.78-.298-2.36-.894-.58-.596-.893-1.291-1.091-2.086-.198-.795-.297-1.69-.297-2.585 0-.992.099-1.887.297-2.585.198-.695.496-1.291 1.091-1.887.58-.596 1.38-.894 2.36-.894.596 0 1.091.099 1.49.397.397.298.596.496.893.496.297 0 .496-.099.694-.099.199 0 .397.099.67.298.273.099 1.733.818 2.03.967.297.149.496.298.596.447.099.149.099.397 0 .596-.149.199-.149.397-.298.596-.447z"/>
-                </svg>
+                <img 
+                  src="/assets/Whatsapp.webp" 
+                  alt="WhatsApp" 
+                  className="w-5 h-5"
+                />
                 Join WhatsApp Group
               </a>
               <p className="text-xs text-gray-500 mt-2">
