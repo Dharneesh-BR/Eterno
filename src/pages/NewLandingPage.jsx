@@ -77,7 +77,7 @@ const NewLandingPage = () => {
     // Create Razorpay checkout options with error handling
     const options = {
       key: import.meta.env.VITE_RAZORPAY_KEY_ID,
-      amount: 69900, // Amount in paise (₹699)
+      amount: 100, // Amount in paise (₹1 for testing)
       currency: 'INR',
       name: formData.name,
       description: 'Decode Diabetes Program Consultation',
@@ -219,7 +219,7 @@ const NewLandingPage = () => {
               <br />
               Doctor led, AI powered Precision care starting at just 
               <br /><br/>
-              <span className="text-4xl md:text-4xl font-bold text-purple-600">Rs 699/-<br/><span className='text-gray-800 text-2xl'>for 100 Days Program</span></span>
+              <span className="text-4xl md:text-4xl font-bold text-purple-600">Rs 1/- (Test Mode)<br/><span className='text-gray-800 text-2xl'>for 100 Days Program</span></span>
             </p>
             
             <button 
@@ -664,7 +664,7 @@ const NewLandingPage = () => {
                   100 Days subscription <br/>at just 
                 </p>
                 <div className="flex items-center justify-center gap-8 mb-8">
-                  <span className="text-5xl md:text-5xl font-bold text-white drop-shadow-lg">Rs 699/-</span>
+                  <span className="text-5xl md:text-5xl font-bold text-white drop-shadow-lg">Rs 1/- (Test)</span>
                   
                 </div>
                 
@@ -1093,7 +1093,7 @@ const NewLandingPage = () => {
               </div>
               
               <div className="bg-purple-600 text-white rounded-lg text-xl py-8 font-bold mt-8 mb-4">
-                        All features listed above <br/>are included in 100 Days subscription at just<br/> Rs 699/-. <br/>without any hidden charges
+                        All features listed above <br/>are included in 100 Days subscription at just<br/> Rs 1/- (Test Mode). <br/>without any hidden charges
                       </div>
                    
             </div>
@@ -1369,7 +1369,7 @@ const NewLandingPage = () => {
                   100 Days subscription <br/>at just 
                 </p>
                 <div className="flex items-center justify-center gap-8 mb-8">
-                  <span className="text-5xl md:text-5xl font-bold text-white drop-shadow-lg">Rs 699/-</span>
+                  <span className="text-5xl md:text-5xl font-bold text-white drop-shadow-lg">Rs 1/- (Test)</span>
                   
                 </div>
                 <span className="bg-gradient-to-r from-yellow-400 to-orange-400 text-purple-900 px-4 py-2 mb-4 rounded-full text-xl font-bold shadow-lg transform hover:scale-105 transition-all">82% Off</span>
@@ -1633,7 +1633,7 @@ const NewLandingPage = () => {
                   type="submit"
                   className="w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white py-3 rounded-lg font-semibold hover:from-purple-700 hover:to-blue-700 transition-all duration-300 transform hover:scale-105 shadow-lg"
                 >
-                  Proceed to Payment - ₹699
+                  Proceed to Payment - ₹1 (Test Mode)
                 </button>
                 
                 <div className="mt-6 p-4 bg-green-50 rounded-lg border border-green-200">
