@@ -1,6 +1,6 @@
 /**
  * Meta Pixel (Facebook Pixel) Utility for Production Use
- * Pixel ID: 1735823844464583
+ * Pixel ID: 2390949768036183
  */
 
 import { META_PIXEL_CONFIG, validatePixelEvent, DEFAULT_EVENT_PARAMS } from '../config/metaPixelConfig';
