@@ -138,7 +138,7 @@ const MobileTimelineSteps = () => {
     // Create Razorpay checkout options
     const options = {
       key: import.meta.env.VITE_RAZORPAY_KEY_ID,
-      amount: 69900, // Amount in paise (₹699)
+      amount: 19900, // Amount in paise (₹699)
       currency: 'INR',
       name: formData.name,
       email: formData.email || formData.mobileNumber + '@eterno.fit',
@@ -262,7 +262,7 @@ const MobileTimelineSteps = () => {
           onClick={handleStartJourney}
           className="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-8 py-4 rounded-full font-bold text-lg hover:from-purple-700 hover:to-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
         >
-          Proceed to pay Rs 699/-
+          Proceed to pay Rs 199/-
         </button>
       </div>
 
@@ -403,7 +403,7 @@ const MobileTimelineSteps = () => {
                 type="submit"
                 className="w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white py-4 rounded-lg font-bold text-lg hover:from-purple-700 hover:to-blue-700 transition-all duration-300 transform hover:scale-105 shadow-lg"
               >
-                Proceed to Payment - ₹699
+                Proceed to Payment - ₹199
               </button>
               
               <div className="mt-6 p-4 bg-green-50 rounded-lg border border-green-200">
@@ -455,7 +455,7 @@ const MobileTimelineSteps = () => {
                 Thank you for joining the Diabetes Reversal Program!
               </p>
               <p className="text-md text-gray-600">
-                Your 12-month journey to better health starts now.
+                Your 100-days journey to better health starts now.
               </p>
             </div>
 
