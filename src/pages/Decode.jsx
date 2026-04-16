@@ -1,577 +1,285 @@
 import { Link } from 'react-router-dom';
-
 import { useState, useEffect } from 'react';
-
 import SEO from '../components/SEO';
-
 import { useSanityData } from '../hooks/useSanityData';
-
 import { FiHeart, FiCheck, FiChevronDown, FiChevronUp } from 'react-icons/fi';
-
 import { doc, setDoc, getDoc, deleteDoc, collection, getDocs } from 'firebase/firestore';
-
 import { auth, db } from '../firebase';
-
 import TestimonialsSection from '../components/TestimonialsSection';
-
 import { trackCTAClick } from '../utils/metaPixel';
-
-
-
 // Check if program has ended
-
 const isProgramEnded = (program) => {
-
   if (!program.programDate || !program.programTime) {
-
     return false;
-
   }
-
-  
 
   try {
-
     const programDateTime = new Date(program.programDate);
-
     const timeString = program.programTime;
-
-    
-
+   
     const timeMatch = timeString.match(/(\d{1,2}):(\d{2})\s*(AM|PM)/i);
-
     if (timeMatch) {
-
       const [, hours, minutes, period] = timeMatch;
-
       let hour = parseInt(hours);
-
       const minute = parseInt(minutes);
-
-      
-
+    
       if (period.toUpperCase() === 'PM' && hour !== 12) {
-
         hour += 12;
-
       }
-
       if (period.toUpperCase() === 'AM' && hour === 12) {
-
         hour = 0;
-
       }
-
-      
-
+     
       programDateTime.setHours(hour, minute, 0, 0);
-
     }
-
-    
-
+   
     const now = new Date();
-
     return programDateTime <= now;
-
   } catch (error) {
-
     console.error('Error checking program end time:', error);
-
     return false;
-
   }
-
 };
-
-
-
 export default function Decode() {
-
   // Form state for pricing section
-
   const [phoneNumber, setPhoneNumber] = useState('');
-
   const [isSubmitting, setIsSubmitting] = useState(false);
-
   const [favorites, setFavorites] = useState({});
-
   const [faqOpenIndex, setFaqOpenIndex] = useState(null);
-
   const user = auth.currentUser;
-
-
-
   // Load user's favorites
-
   useEffect(() => {
-
     const loadFavorites = async () => {
-
       if (user) {
-
         try {
-
           const favoritesRef = collection(db, 'users', user.uid, 'favorites');
-
           const querySnapshot = await getDocs(favoritesRef);
-
           const favoritesData = {};
-
           querySnapshot.forEach((doc) => {
-
             favoritesData[doc.id] = true;
-
           });
-
           setFavorites(favoritesData);
-
         } catch (error) {
-
           console.error('Error loading favorites:', error);
-
         }
-
       }
-
     };
-
-    
-
+   
     loadFavorites();
-
   }, [user]);
-
-
-
   // Toggle favorite status
-
   const toggleFavorite = async (programId, e) => {
-
     e.preventDefault();
-
     e.stopPropagation();
-
-    
-
+  
     if (!user) {
-
       return;
-
     }
-
-
-
     try {
-
       const isFavorite = favorites[programId];
-
-      
-
+     
       if (isFavorite) {
-
         // Remove from favorites
-
         await deleteDoc(doc(db, 'users', user.uid, 'favorites', programId));
-
       } else {
-
         // Add to favorites
-
         const program = data?.find(p => p._id === programId);
-
         if (program) {
-
           await setDoc(doc(db, 'users', user.uid, 'favorites', programId), {
-
             ...program,
-
             addedAt: new Date().toISOString()
-
           });
-
         }
-
       }
-
-      
-
+     
       // Update local state
-
       setFavorites(prev => ({
-
         ...prev,
-
         [programId]: !isFavorite
-
       }));
-
     } catch (err) {
-
       console.error('Error updating favorites:', err);
-
     }
-
   };
-
-
-
   // Handle pricing form submission
-
   const handleSubmit = (e) => {
-
     e.preventDefault();
-
     setIsSubmitting(true);
-
-    
-
+   
     // Create email content
-
     const subject = 'New Diabetes Reversal Consultation Request';
-
     const body = `Phone Number: ${phoneNumber}\nTimestamp: ${new Date().toISOString()}\nPage: Decode Diabetes Page`;
-
-    
-
+   
     // Show email content to user and provide manual option
-
     const emailContent = `To: connect@svasam.com\nSubject: ${subject}\n\n${body}`;
-
     
-
     // Copy to clipboard first
-
     if (navigator.clipboard && navigator.clipboard.writeText) {
-
       navigator.clipboard.writeText(emailContent).then(() => {
-
         alert('Email content copied to clipboard!\n\nPlease send this email to connect@svasam.com\n\nOr click the button below to open your email client.');
-
       }).catch(() => {
-
         alert('Please copy and send this email to connect@svasam.com:\n\n' + emailContent);
-
       });
-
     } else {
-
       alert('Please send this email to connect@svasam.com:\n\n' + emailContent);
-
     }
-
-    
-
+   
     // Try to open email client with a small delay
-
     setTimeout(() => {
-
       try {
-
         const mailtoLink = `mailto:connect@svasam.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-
         const newWindow = window.open(mailtoLink, '_blank', 'width=600,height=400');
-
-        
-
+       
         if (newWindow) {
-
           // Focus on the new window after a short delay
-
           setTimeout(() => {
-
             newWindow.focus();
-
           }, 100);
-
         }
-
       } catch (error) {
-
         console.log('Email client could not be opened:', error);
-
       }
-
-      
-
+     
       setPhoneNumber('');
-
       setIsSubmitting(false);
-
     }, 500);
-
   };
-
-
-
   // Query to get all programs - we'll filter for Decode Diabetes in the component
-
   const { loading, error, data } = useSanityData(`*[_type == "program"]{
-
     _id,
-
     title,
-
     description,
-
     "bannerImage": image.asset->url,
-
     "image": image.asset->url,
-
     price,
-
     discountPrice,
-
     duration,
-
     strip,
-
     slug,
-
     features,
-
     process,
-
     benefits,
-
     targetAudience,
-
     programDate,
-
     programTime
-
   }`);
-
-
-
   if (loading) {
-
     return (
-
       <div className="min-h-screen bg-gradient-to-br from-[#936af7] via-[#936af7] to-indigo-900 flex items-center justify-center">
-
         <div className="text-white text-xl">Loading...</div>
-
       </div>
-
     );
-
   }
-
-
-
   if (error) {
-
     return (
-
       <div className="min-h-screen bg-gradient-to-br from-[#936af7] via-[#936af7] to-indigo-900 flex items-center justify-center">
-
         <div className="text-white text-xl">Error loading content. Please try again later.</div>
-
       </div>
-
     );
-
   }
-
-
-
   // Find the Decode Diabetes program from Sanity data
-
   const decodeProgram = data?.find(program => 
-
     program?.title?.toLowerCase().includes('decode') && 
-
     program?.title?.toLowerCase().includes('diabetes')
-
   );
-
-
-
   // Use fallback data if no Sanity program exists - this ensures content always displays
-
   const fallbackProgram = {
-
-    bannerImage: { asset: { url: "/assets/Diabetes.png" } },
-
+    bannerImage: { asset: { url: "/assets/Diabetes.webp" } },
     process: [
-
       {
-
         icon: "🧬",
-
         title: "Root Cause Analysis",
-
         description: "Deep metabolic and genetic assessment"
-
       },
-
       {
-
         icon: "📊",
-
         title: "Continuous Monitoring",
-
         description: "Real-time glucose and metabolic tracking"
-
       },
-
       {
-
         icon: "🎯",
-
         title: "Precision Protocols",
-
         description: "Personalized treatment interventions"
-
       },
-
       {
-
         icon: "🔄",
-
         title: "Adaptive Learning",
-
         description: "AI-driven plan optimization"
-
       }
-
     ],
-
     benefits: [
-
       "Stable glucose levels without medication dependency",
-
       "Improved insulin sensitivity and metabolic flexibility", 
-
       "Reduced inflammation and gut healing",
-
       "Enhanced energy, mental clarity, and vitality",
-
       "Sustainable long-term health transformation",
-
       "Whole-system metabolic reprogramming"
-
     ],
-
     targetAudience: [
-
       "Individuals with prediabetes or type 2 diabetes seeking reversal",
-
       "Those wanting to reduce or eliminate medication dependency",
-
       "People committed to holistic metabolic transformation",
-
       "Anyone ready for precision, personalized diabetes care"
-
     ]
-
   };
-
-
-
   // Use Sanity data if available, otherwise use fallback
-
   const program = decodeProgram || fallbackProgram;
-
-
-
   return (
-
     <>
-
       <style jsx>{`
-
         @keyframes float {
-
           0%, 100% {
-
             transform: translateY(0px);
-
           }
-
           50% {
-
             transform: translateY(-20px);
-
           }
-
         }
-
         .bg-grid-pattern {
-
           background-image: 
-
             linear-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px),
-
             linear-gradient(90deg, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
-
           background-size: 20px 20px;
-
           background-position: 0 0, 10px 10px;
-
         }
-
       `}</style>
-
       <SEO 
-
         title="Decode Diabetes Program - Eterno"
-
         description="Doctor-led, AI-guided diabetes reversal program using advanced diagnostics, precision medicine, and metabolic optimization for sustainable glucose management."
-
         keywords="decode diabetes, diabetes reversal, metabolic health, precision medicine, AI-guided treatment"
-
         image={program?.bannerImage?.asset?.url || "/assets/Diabetes.png"}
-
         type="article"
-
         structuredData={{
-
           '@context': 'https://schema.org',
-
           '@type': 'WebPage',
-
           name: 'Decode Diabetes Program - Eterno',
-
           description: 'Doctor-led, AI-guided approach identifies dysfunction early, improves insulin sensitivity, and stabilizes glucose sustainably.',
-
           url: 'https://eterno.fit/decode',
-
           mainEntity: {
-
             '@type': 'Organization',
-
             name: 'Eterno',
-
             description: 'Precision health and wellness programs'
-
           }
-
         }}
-
       />
-
-
-
       <div className="min-h-screen">
         {/* Hero Section */}
         <section className="hidden sm:block relative w-screen min-h-[80vh] sm:min-h-[70vh] md:min-h-[70vh] overflow-hidden bg-gradient-to-br from-indigo-900 via-purple-900 to-indigo-800 pb-12 sm:pb-16 md:pb-20">
           {/* Banner Image Background with reduced opacity */}
           <div className="absolute inset-0 w-full h-full">
             <img 
-              src={program?.bannerImage?.asset?.url || "/assets/Diabetes.png"}
+              src={program?.bannerImage?.asset?.url || "/assets/Diabetes.webp"}
               alt="Decode Diabetes Program Banner"
               className="w-full h-full object-cover"
               style={{ objectPosition: 'right' }}
             />
-            
+           
             {/* Dark Overlay for text readability */}
             <div className="absolute inset-0 bg-gradient-to-br from-black/40 via-black/40 to-black/40"></div>
           </div>
-          
+        
           <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 sm:pt-20 md:pt-24 pb-16 sm:pb-20 md:pb-24 h-full flex flex-col sm:items-start items-center justify-center text-center sm:text-left">
-            
+           
             <div className="max-w-5xl sm:max-w-4xl mx-auto px-2 sm:px-4 sm:ml-0">
               {/* Mobile Heading */}
               <div className="sm:hidden">
@@ -655,7 +363,7 @@ export default function Decode() {
           {/* Banner Image Background with reduced opacity */}
           <div className="absolute inset-0 w-full h-full">
             <img 
-              src="/assets/Diabetes-mobile-view.png"
+              src="/assets/Diabetes-mobile-view.webp"
               alt="Decode Diabetes Program Banner"
               className="w-full h-full object-cover"
               style={{ objectPosition: 'right' }}
@@ -1222,383 +930,189 @@ export default function Decode() {
                     <div>
                       <h4 className="text-h4 font-bold text-white mb-1">Certified Meditation Coaching</h4>
                       <p className="text-white/80 text-s font-bold leading-relaxed">Nervous system regulation to reduce cortisol and improve glucose balance.</p>
-
                     </div>
-
                   </div>
-
                   <div className="flex items-start">
-
                     <span className="text-green-400 mr-3 mt-1">😴</span>
-
                     <div>
-
                       <h4 className="text-h4 font-bold text-white mb-1">Stress-Free Sleep Coaching</h4>
-
                       <p className="text-white/80 text-s font-bold leading-relaxed">Optimize recovery, hormonal balance, and cellular repair.</p>
-
                     </div>
-
                   </div>
-
                 </div>
-
               </div>
-
             </div>
-
         </section>
-
-
-
         {/* Ask Eva AI Assistant Section */}
-
         <section className="relative w-full py-8">
-
           <div className="px-4 sm:px-6 lg:px-8">
-
             <div className="bg-gradient-to-r from-[#936af7] via-purple-600 to-blue-600 rounded-2xl shadow-xl p-6 border border-purple-400 max-w-4xl mx-auto" >
-
               <div className="text-center">
-
                 {/* Title and Description Above */}
-
                 <div className="mb-6">
-
                   <h2 className="text-h2 text-white mb-4">
-
                     Ask anything to <br/>Eva <br />Your Ai Assistant
-
                   </h2>
-
                   <h3 className="text-h3 text-white/90 max-w-3xl leading-relaxed mx-auto">
-
                     Receive real-time answers, insights, and support for all your Health-related questions.
-
                   </h3>
-
                 </div>
-
-                
-
-                {/* Image Below */}
-
-                <div className="w-full flex justify-center relative">
-
-                  <img 
-
-                    src="/assets/eva app 2.webp"
-
-                    alt="Eva AI Assistant"
-
-                    className="w-40 h-auto md:w-48 lg:w-56 mx-auto"
-
-                  />
-
-                </div>
-
-                
-
-                
-
-              </div>
-
-            </div>
-
-          </div>
-
-        </section>
-
-
-
-        
-
-        {/* Personalized Diet Plans Made Simple */}
-
-        <section className="relative w-full py-20 bg-transparent">
-
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 ">
-
-            <div className="text-center mb-16">
-
-              <h2 className="text-h2 text-white mb-6">Personalized Diet Plans Made Simple</h2>
-
-            </div>
-
-            
-
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-
-              {/* Left side - Image */}
-
-              <div className="flex justify-center">
-
-                
-
-                  <img 
-
-                    src="/assets/App_2.webp"
-
-                    alt="Eterno App Progress Reports"
-
-                    className="w-full h-auto max-w-lg rounded-xl"
-
-                  />
-
-                </div>
-
               
-
+                {/* Image Below */}
+                <div className="w-full flex justify-center relative">
+                  <img 
+                    src="/assets/eva app 2.webp"
+                    alt="Eva AI Assistant"
+                    className="w-40 h-auto md:w-48 lg:w-56 mx-auto"
+                  />
+                </div>
+             
+             
+              </div>
+            </div>
+          </div>
+        </section>
+      
+        {/* Personalized Diet Plans Made Simple */}
+        <section className="relative w-full py-20 bg-transparent">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 ">
+            <div className="text-center mb-16">
+              <h2 className="text-h2 text-white mb-6">Personalized Diet Plans Made Simple</h2>
+            </div>
+           
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+              {/* Left side - Image */}
+              <div className="flex justify-center">
+               
+                  <img 
+                    src="/assets/App_2.webp"
+                    alt="Eterno App Progress Reports"
+                    className="w-full h-auto max-w-lg rounded-xl"
+                  />
+                </div>
+             
               {/* Right side - Text content */}
-
               <div className="text-white">
-
                 <h3 className="text-h3 md:text-xl leading-relaxed mb-6">
-
                   Take control of your nutrition needs with Eterno app
-
                 </h3>
-
-                
-
+               
                 <div className="space-y-4">
-
                   <div className="flex items-start gap-3">
-
                     <div className="w-2 h-2 bg-[#936af7] rounded-full mt-2 flex-shrink-0"></div>
-
                     <div>
-
                       <h3 className="text-lg font-semibold mb-2">Personalised Diet Plans</h3>
-
                       <p className="text-white/80">Tailor meal plans to fit your unique goals and preferences in seconds.</p>
-
                     </div>
-
                   </div>
-
-                  
-
+                 
                   <div className="flex items-start gap-3">
-
                     <div className="w-2 h-2 bg-[#936af7] rounded-full mt-2 flex-shrink-0"></div>
-
                     <div>
-
                       <h3 className="text-lg font-semibold mb-2">Verified Nutrition Plans</h3>
-
                       <p className="text-white/80">Access 2000+ verified diet plans in the app with detailed macronutrient & micronutrient breakdowns.</p>
-
                     </div>
-
                   </div>
-
-                  
-
+                 
                   <div className="flex items-start gap-3">
-
                     <div className="w-2 h-2 bg-[#936af7] rounded-full mt-2 flex-shrink-0"></div>
-
                     <div>
-
                       <h3 className="text-lg font-semibold mb-2">Automate meal reminders</h3>
-
                       <p className="text-white/80">Keep track with timely notifications to have their next meal on time.</p>
-
                     </div>
-
                   </div>
-
                 </div>
-
               </div>
-
             </div>
-
           </div>
-
         </section>
-
-  
-
-
-
         {/* Why Program Works */}
-
         <section className="px-4 py-12 bg-transparent">
-
           <div className="max-w-6xl mx-auto">
-
             <div className="max-w-xl mx-auto">
-
               <div className="bg-gradient-to-r from-[#936af7] via-purple-600 to-blue-600 rounded-2xl shadow-xl p-6 border border-purple-400">
-
                 {/* Title and Description Inside Card */}
-
                 <div className="text-center mb-6">
-
                   <h2 className="text-h2 font-extrabold text-white mb-6">
-
                     Why the Program Works?
-
                   </h2>
-
                   <h3 className="text-h3 text-white/90 text-center mb-8">
-
                     A Precision, <br/>Doctor-Led <br/>Mind–Body Metabolic Reversal System
-
                   </h3>
-
                 </div>
-
-                
-
+               
                 <ul className="space-y-6">
-
                   {[
-
                     {
-
                       icon: "👨‍⚕️",
-
                       title: "Doctor-Led, Holistic Reversal Protocol",
-
                     },
-
                     {
-
                       icon: "🧬",
-
                       title: "Gene & Gut-Based Personalisation",
-
                     },
-
                     {
-
                       icon: "📚",
-
                       title: "Science-Backed Education on Diabetes Reversal",
-
                     },
-
                     {
-
                       icon: "💊",
-
                       title: "Reduce & Potentially Eliminate Medicines Safely",
-
                     },
-
                     {
-
                       icon: "🥗",
-
                       title: "Sustainable Nutrition — No Fad Diets",
-
                     },
-
                     {
-
                       icon: "⚖️",
-
                       title: "Integrated Weight Balance Program",
-
                     },
-
                     {
-
                       icon: "🎮",
-
                       title: "AI-Powered & Goal-Driven Gamification Experience",
-
                     }
-
                   ].map((item, index) => (
-
                     <li key={index} className="flex items-center">
-
                       <span className="text-2xl mr-4 flex-shrink-0">{item.icon}</span>
-
                       <span className="text-white font-medium text-h3">{item.title}</span>
-
                     </li>
-
                   ))}
-
                 </ul>
-
               </div>
-
             </div>
-
           </div>
-
         </section>
-
-
-
         {/* What's Included*/ }
-
         <section className="px-4 py-12 bg-transparent">
-
           <div className="max-w-6xl mx-auto">
-
             <div className="max-w-xl mx-auto">
-
               <div className="bg-gradient-to-r from-purple-100 via-blue-100 to-indigo-100 rounded-2xl shadow-xl p-6 border border-purple-300 backdrop-blur-md">
-
                 {/* Title Inside Card */}
-
                 <div className="text-center mb-6">
-
                   <h2 className="text-h2 font-bold text-gray-800 mb-6">
-
                     What's Included in the Plan
-
                   </h2>
-
                 </div>
-
-                
-
+              
                 <ul className="space-y-6">
-
                   {[
-
                     { icon: "👨‍⚕️", text: "On-Demand Doctor Supervision" },
-
                     { icon: "👥", text: "Dedicated Diabetes & Metabolic Expert Support" }, 
-
                     { icon: "🏥", text: "In-Depth & Regular Clinical Consultations" },
-
                     { icon: "🥗", text: "Personalized Nutrition, Stress & Sleep Protocols" },
-
                     { icon: "📱", text: "Comprehensive Mobile App Tracking" },
-
                     { icon: "🔬", text: "Longevity Biohacks & Guided Coaching" }
-
                   ].map((item, index) => (
-
                     <li key={index} className="flex items-center">
-
                       <span className="text-2xl mr-4 flex-shrink-0">{item.icon}</span>
-
                       <span className="text-gray-800 font-medium text-h3">{item.text}</span>
-
                     </li>
-
                   ))}
-
                 </ul>
-
               </div>
-
             </div>
-
           </div>
-
         </section>
-
         {/* Book Session Button */}
         <div className="px-4 py-8 bg-transparent text-center">
           <button 
@@ -1608,520 +1122,269 @@ export default function Decode() {
             Book Session Now
           </button>
         </div>
-
-
 {/* New Section - Join 2-Hour Program }
-
           <section className="relative w-full py-8 bg-transparent" style={{ zIndex: 0 }}>
-
-                
-
+              
                 <div className="px-4 sm:px-6 lg:px-8">
-
                   <div className="relative bg-gradient-to-br from-slate-900/90 via-purple-900/80 to-pink-900/90 backdrop-blur-xl rounded-2xl p-4 border border-purple-500/30 hover:border-purple-400/50 transition-all duration-500 hover:shadow-2xl hover:shadow-purple-500/20 group overflow-hidden max-w-lg mx-auto">
-
                     {/* Subtle animated background pattern }
-
                     <div className="absolute inset-0 opacity-10">
-
                       <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-purple-500/20 to-transparent"></div>
-
                       <div className="absolute bottom-0 right-0 w-32 h-32 bg-purple-400/20 rounded-full blur-2xl"></div>
-
                     </div>
-
-                    
-
+                   
                     <div className="relative z-10">
-
                       <div className="text-center mb-4">
-
                         <h3 className="text-h3 font-extrabold text-white mb-6">
-
                           To know more about <br/>Decode Diabetes program <br/>Join our 2 Hours Webinar on <br/>Unlock Diabetes 
-
                         </h3>
-
                         <div className="mt-3 space-y-6">
-
                           <p className="text-lg font-semibold text-red-600 py-5 px-6 bg-yellow-300 rounded-lg inline-block">
-
                             You are getting all this for Just - ₹199/-
-
                           </p>
-
                           <ul className="text-sm text-white space-y-4 text-left max-w-2xl mx-auto">
-
                             <li className="flex items-center">
-
                               <span className="text-2xl mr-3">🎥</span>
-
                               <span className="font-bold text-lg text-white">2-Hour Live Diabetes Reversal Workshop</span>
-
                             </li>
-
                             <li className="flex items-center">
-
                               <span className="text-2xl mr-3">📱</span>
-
                               <span className="font-bold text-lg text-white">3 Month Free Subscription to the Eterno Wellness App</span>
-
                             </li>
-
                             <li className="flex items-center">
-
                               <span className="text-2xl mr-3">🥗</span>
-
                               <span className="font-bold text-lg text-white">7 Day Diabetes Reversal Diet Plan</span>
-
                             </li>
-
                             <li className="flex items-center">
-
                               <span className="text-2xl mr-3">📖</span>
-
                               <span className="font-bold text-lg text-white">Home Workout Guide</span>
-
                             </li>
-
-                            
-
+                          
                             <li className="flex items-center">
-
                               <span className="text-2xl mr-3">🤖</span>
-
                               <span className="font-bold text-lg text-white">AI-Powered Health Tracking</span>
-
                             </li>
-
                             <li className="flex items-center">
-
                               <span className="text-2xl mr-3">💻</span>
-
                               <span className="font-bold text-lg text-white">Workshop Recording Access</span>
-
                             </li>
-
-                            
-
-                            
-
+                           
+                           
                           </ul>
-
                           <p className="text-lg font-semibold text-red-600 py-3 px-4 bg-yellow-300 rounded-lg inline-block">
-
                             2 Hours program worth <span className="line-through text-black">₹3000/-</span> for <br/><span className="text-2xl font-black text-black">Just ₹199/-</span>
-
                           </p>
-
                           <div className="text-center mt-6 py-3 px-4">
-
               <h3 className="text-white mb-3 font-bold text-h3">
-
                 Book your Session now <br/>And start your diabetes reversal journey
-
               </h3>
-
                 <button onClick={() => setShowBookingForm(true)} className="px-6 py-3 bg-gradient-to-r from-[#936af7] via-purple-600 to-blue-600 text-white rounded-xl font-semibold hover:from-purple-700 hover:via-purple-700 hover:to-blue-700 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl text-lg">
-
                   Book Session Now
-
                 </button>
-
             </div>
-
                         </div>
-
                       </div>
-
                     </div>
-
                   </div>
-
                 </div>
-
             
-
             </section>
-
-            
-
+          
         {/* Download App Section */}
-
         <section className="relative w-full py-20 bg-gradient-to-br from-purple-900/20 via-purple-800/10 to-indigo-900/20" style={{ zIndex: 0 }}>
-
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-
             <div className="grid grid-cols-1 gap-0 items-center">
-
               {/* Image - Above the card for all screen sizes */}
-
               <div className="flex justify-center">
-
                 <img 
-
                   src="/assets/Download now final.webp"
-
                   alt="Eterno App on Mobile"
-
                   className="w-full h-auto max-w-sm rounded-xl"
-
                 />
-
               </div>
-
-              
-
+             
               {/* Text content card - Below the image for all screen sizes */}
-
               <div className="bg-gradient-to-r from-[#936af7] via-purple-600 to-blue-600 rounded-2xl p-6 sm:p-8 lg:p-10 border border-purple-400 shadow-2xl max-w-2xl mx-auto" >
-
                 <div className="text-white text-center">
-
                   <h2 className="text-h2 text-white mb-4 sm:mb-6">Start Your Health Journey Today</h2>
-
-                  
+                 
                   <p className="text-body leading-relaxed mb-4 sm:mb-6">
-
                     Download now Eterno Health App & a free Expert Consultation
-
                   </p>
-
-                  
-
+                
                   <p className="text-body text-white/90 mb-6">
-
                     Available on Android & IOS for seamless access on the go.
-
                   </p>
-
-                  
-
+                
                   {/* App Store Buttons */}
-
                   <div className="flex gap-4 sm:gap-6 mt-6 sm:mt-8 justify-center">
-
                     {/* Apple App Store */}
-
                     <a href="https://apps.apple.com/in/app/eterno/id6759284060" target="_blank" rel="noopener noreferrer" className="block">
-
                       <div className="w-14 h-14 sm:w-16 sm:h-16 bg-black rounded-full flex items-center justify-center hover:bg-gray-800 transition-all duration-300 transform hover:scale-110 shadow-lg">
-
                         <svg className="w-7 h-7 sm:w-8 sm:h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
-
                           <path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09l.01-.01zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/>
-
                         </svg>
-
                       </div>
-
                     </a>
-
-                    
-
+                  
                     {/* Google Play Store */}
-
                     <a href="https://play.google.com/store/apps/details?id=com.wellnessz.eterno" target="_blank" rel="noopener noreferrer" className="block">
-
                       <div className="w-14 h-14 sm:w-16 sm:h-16 bg-black rounded-full flex items-center justify-center hover:bg-gray-800 transition-all duration-300 transform hover:scale-110 shadow-lg p-1">
-
                         <img 
-
                           src="/assets/playstore.webp"
-
                           alt="Google Play Store"
-
                           className="w-full h-full object-contain"
-
                         />
-
                       </div>
-
                     </a>
-
                   </div>
-              
+             
                  </div>
               </div>
             </div>
           </div>
         </section>
-     
-     
+   
+   
         {/* Pricing Section */}
         {/*
         <section className="px-4 py-12 bg-transparent">
-
           <div className="max-w-lg mx-auto">
-
             <div className="bg-gradient-to-br from-purple-300 via-pink-200 to-blue-300 rounded-2xl p-8 border border-purple-400 shadow-xl">
-
               <div className="text-center mb-8">
-
                 <h2 className="text-h2 font-bold text-gray-800 mb-4">
-
                   Transform Your Health Today
-
                 </h2>
-
                 <div className="bg-red-500 text-white px-6 py-3 rounded-full text-lg font-bold inline-block mb-6 animate-pulse">
-
                   Offer valid only till 30th March 2026
-
                 </div>
-
               </div>
-
-
-
               <div className="bg-white/90 backdrop-blur-sm rounded-xl p-4 border border-purple-300 shadow-lg">
-
                 <div className="text-center mb-4">
-
                   <div className="mb-2">
-
                     <span className="text-gray-800 text-lg font-bold ">Rs 29,990/-</span>
-
-                    
-
-                  </div>
-
-                   </div>
-
-
-
-                <div className="border-t border-purple-200 pt-4">
-
-                  <h3 className="text-lg font-bold text-gray-800 mb-3 text-center">
-
-                    12 Month Plan Includes:
-
-                  </h3>
-
                   
-
-                  <div className="space-y-4 mb-4">
-
-                    {[
-
-                      "12 Direct 1:1 Consultations with Senior Doctor",
-
-                      "12 One-on-One Holistic Wellness Sessions",
-
-                      "12-Month Wellness App Access for Self & 3 Family Members",
-
-                      "Unlimited Access to Diabetes & Metabolic Experts",
-
-                      "Personalized Daily Meal Plan",
-
-                      "Yoga, Strength Training & Meditation Coaching",
-
-                      "Gamified Goal Tracking on the Wellness App",
-
-                      "Holistic Weight Balance Program",
-
-                      "Advanced Gut Health Program"
-
-                    ].map((item, index) => (
-
-                      <div key={index} className="flex items-start">
-
-                        <span className="text-purple-600 text-lg mr-2 flex-shrink-0">✓</span>
-
-                        <span className="text-gray-700 text-sm leading-relaxed">{item}</span>
-
-                      </div>
-
-                    ))}
-
                   </div>
-
-                </div>
-
-
-
-                <div className="text-center">
-
-                  <form onSubmit={handleSubmit} className="max-w-md mx-auto">
-
-                    <button
-
-                      type="submit"
-
-                      disabled={isSubmitting}
-
-                      className="bg-purple-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-purple-700 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed text-sm"
-
-                    >
-
-                      {isSubmitting ? 'Booking...' : 'Book Now'}
-
-                    </button>
-
-                  </form>
-
-                </div>
-
-              </div>
-
-            </div>
-
-          </div>
-
-        </section>
-        
-
-
-        <TestimonialsSection />
-
-
-
-        {/* Decode Diabetes FAQ Section */}
-
-        <section className="w-full py-20 relative overflow-hidden">
-
-          <div className="w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-
-            <div className="bg-gradient-to-r from-[#936af7] via-purple-600 to-blue-600 rounded-2xl shadow-xl p-8 border border-purple-400">
-
-              <div className="text-center mb-12 sm:mb-16">
-
-                <h2 className="text-h2 text-white mb-4 sm:mb-6">Frequently Asked Questions</h2>
-
-                <div className="max-w-2xl mx-auto px-2 sm:px-4">
-
-                  <h3 className="text-h3 text-white/70 leading-relaxed mb-3 sm:mb-4">
-
-                    Find answers to common questions about our diabetes reversal program
-
+                   </div>
+                <div className="border-t border-purple-200 pt-4">
+                  <h3 className="text-lg font-bold text-gray-800 mb-3 text-center">
+                    12 Month Plan Includes:
                   </h3>
-
+                
+                  <div className="space-y-4 mb-4">
+                    {[
+                      "12 Direct 1:1 Consultations with Senior Doctor",
+                      "12 One-on-One Holistic Wellness Sessions",
+                      "12-Month Wellness App Access for Self & 3 Family Members",
+                      "Unlimited Access to Diabetes & Metabolic Experts",
+                      "Personalized Daily Meal Plan",
+                      "Yoga, Strength Training & Meditation Coaching",
+                      "Gamified Goal Tracking on the Wellness App",
+                      "Holistic Weight Balance Program",
+                      "Advanced Gut Health Program"
+                    ].map((item, index) => (
+                      <div key={index} className="flex items-start">
+                        <span className="text-purple-600 text-lg mr-2 flex-shrink-0">✓</span>
+                        <span className="text-gray-700 text-sm leading-relaxed">{item}</span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-
+                <div className="text-center">
+                  <form onSubmit={handleSubmit} className="max-w-md mx-auto">
+                    <button
+                      type="submit"
+                      disabled={isSubmitting}
+                      className="bg-purple-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-purple-700 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed text-sm"
+                    >
+                      {isSubmitting ? 'Booking...' : 'Book Now'}
+                    </button>
+                  </form>
+                </div>
               </div>
-
-              
-
+            </div>
+          </div>
+        </section>
+      
+        <TestimonialsSection />
+        {/* Decode Diabetes FAQ Section */}
+        <section className="w-full py-20 relative overflow-hidden">
+          <div className="w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="bg-gradient-to-r from-[#936af7] via-purple-600 to-blue-600 rounded-2xl shadow-xl p-8 border border-purple-400">
+              <div className="text-center mb-12 sm:mb-16">
+                <h2 className="text-h2 text-white mb-4 sm:mb-6">Frequently Asked Questions</h2>
+                <div className="max-w-2xl mx-auto px-2 sm:px-4">
+                  <h3 className="text-h3 text-white/70 leading-relaxed mb-3 sm:mb-4">
+                    Find answers to common questions about our diabetes reversal program
+                  </h3>
+                </div>
+              </div>
+             
               <div className="space-y-4">
               {[
-
                 {
                   question: 'What is Decode Diabetes - Diabetes Management Program?',
                   answer: 'Eterno - Decode Diabetes is a comprehensive diabetes management program built on an integrated health approach. It combines expert doctor guidance, advanced gene and gut testing, AI-powered technology, and holistic lifestyle practices.\nThe program focuses on identifying and addressing the root causes of diabetes, helping you manage and potentially reverse the condition while also slowing biological aging—so you can live a healthier, stronger life over the long term.'
-
                 },
-
                 {
                   question: 'How is this program different from other diabetes management solutions?',
                   answer: 'Unlike typical solutions, it combines doctor-led care, advanced gene and gut testing to understand your body deeply, AI-driven insights for personalized guidance, and holistic lifestyle changes.\nThis integrated approach not only helps improve diabetes outcomes but also works to slow biological aging, helping you become healthier and stronger over the long term.'
-
                 },
-
                 {
                   question: 'What is the Approach to Reverse Diabetes?',
                   answer: 'We follow an Integrated health approach - guided by doctors, powered by advanced gene and gut testing, supported by AI technology, and strengthened through holistic lifestyle practices.\nWe focus on treating diabetes at its root, slowing your biological aging, and helping you live a healthier, stronger life for the long run.\nWe are on a mission to make diabetes reversal affordable—at just Approx ₹160 per month—so that everyone can access expert care, advanced diagnostics, and personalized guidance without financial barriers.'
-
                 },
-
                 {
                   question: 'What You Get in the 12 Months Program?',
                   answer: '1. Ai Powered Health App for 12 Months\n2. Daily Personalized Diet Plan for Diabetes\n3. Daily Workout Plans\n4. Breath Work & Meditation Coaching\n5. Sound Therapy for Stress Release\n6. Holistic Wellness Coaching\n7. On Demand Doctor & Nutritionist Consultation\n8. Master Class on Diabetes Reversal'
-
                 },
-
                 {
                   question: 'How do I enroll to the Program?',
                   answer: '1. Download the Eterno App\nGet the Eterno App on iOS or Android and create your account.\n\n2. Complete Your Health Profile\nShare your health history, lifestyle, food preferences, and goals so our AI and medical experts can understand your metabolic health.\n\n3. Get Your Personalized Plan\nUpload your Blood Report to fix up a consultation with In house doctor with AI-powered program including personalized nutrition, exercise guidance, and metabolic optimization strategies.\n\n4. Track Progress & Transform Your Health\nTrack your meals, glucose levels, and lifestyle habits inside the app — and watch your HbA1c, energy levels, and metabolic health improve over time.\nOur nutritionist will reach you for One on One Assistance and Fix up Appointment with Doctor'
-
                 }
-
               ].map((faq, index) => (
-
                 <div key={index} className="mb-6 last:mb-0">
-
                   <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl p-6 hover:shadow-2xl transition-all duration-300 border border-white/40 hover:bg-white">
-
                     <button
-
                       className="w-full flex justify-between items-center text-left transition-colors group"
-
                       onClick={() => {
-
                         const currentState = faqOpenIndex === index;
-
                         setFaqOpenIndex(currentState ? null : index);
-
                       }}
-
                       aria-expanded={faqOpenIndex === index}
-
                     >
-
                       <span className="text-h3 font-semibold text-gray-800 group-hover:text-purple-600">{faq.question}</span>
-
                       {faqOpenIndex === index ? (
-
                         <FiChevronUp className="text-purple-600 text-xl flex-shrink-0 ml-4" />
-
                       ) : (
-
                         <FiChevronDown className="text-gray-500 text-xl group-hover:text-purple-600 flex-shrink-0 ml-4" />
-
                       )}
-
                     </button>
-
                     <div 
-
                       className={`overflow-hidden transition-all duration-300 ease-in-out ${faqOpenIndex === index ? 'max-h-96 opacity-100 mt-4' : 'max-h-0 opacity-0'}`}
-
                       aria-hidden={!faqOpenIndex === index}
-
                     >
-
                       <div className="text-body text-gray-600 leading-relaxed whitespace-pre-line">{faq.answer}</div>
-
                     </div>
-
                   </div>
-
                 </div>
-
               ))}
-
             </div>
-
             <div className="mt-12 text-center">
-
               <p className="text-body text-white/70 mb-4">Still have questions?</p>
-
               <a 
                 href="/contact" 
                 className="inline-block px-6 py-3 bg-purple-600 text-white rounded-lg font-medium hover:bg-purple-700 transition-colors text-button"
                 onClick={() => trackCTAClick('Contact Us', 'Decode Page Footer')}
               >
-
                 Contact Us
-
               </a>
-
             </div>
-
           </div>
-
         </div>
-
         </section>
-
-
-
-        
-
+     
       </div>
-
     </>
-
   );
-
 }
-

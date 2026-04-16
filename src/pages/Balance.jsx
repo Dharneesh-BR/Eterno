@@ -20,7 +20,7 @@ export default function Balance() {
         title="Balance Weight Program - Eterno"
         description="Doctor-led, AI-powered weight transformation program using genetic testing, microbiome analysis, and precision diagnostics for sustainable metabolic health."
         keywords="balance weight program, metabolic health, genetic testing, microbiome analysis, precision health, sustainable weight loss"
-        image="/assets/Balance Weight 2.png"
+        image="/assets/Balance weight 2.webp"
         type="article"
         structuredData={{
           '@context': 'https://schema.org',
@@ -42,7 +42,7 @@ export default function Balance() {
           {/* Banner Image Background */}
           <div className="absolute inset-0 w-full h-full overflow-hidden">
             <img 
-              src="/assets/Balance weight 2.png"
+              src="/assets/Balance weight 2.webp"
               alt="Eterno Banner"
               className="absolute inset-0 w-full h-full object-cover object-center"
             />
@@ -86,7 +86,7 @@ export default function Balance() {
           {/* Banner Image Background */}
           <div className="absolute inset-0 w-full h-full overflow-hidden">
             <img 
-              src="/assets/balance weight.png"
+              src="/assets/balance weight.webp"
               alt="Eterno Banner"
               className="absolute inset-0 w-full h-full object-cover object-center"
             />

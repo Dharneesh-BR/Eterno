@@ -304,7 +304,7 @@ export default function Categories() {
           {/* Banner Image Background */}
           <div className="absolute inset-0 w-full h-full overflow-hidden">
             <img 
-              src="/assets/Web view 2.png"
+              src="/assets/Web view 2.webp"
               alt="Eterno Banner"
               className="absolute inset-0 w-[100.5%] h-[100.5%] object-cover object-center"
             />
@@ -383,7 +383,7 @@ export default function Categories() {
           {/* Banner Image Background */}
           <div className="absolute inset-0 w-full h-full overflow-hidden">
             <img 
-              src="/assets/Mobile View.png"
+              src="/assets/Mobile View.webp"
               alt="Eterno Banner"
               className="w-full max-w-4xl mx-auto h-auto object-contain rounded-lg shadow-xl"
             />
@@ -875,7 +875,7 @@ export default function Categories() {
                 {/* Image Below */}
                 <div className="w-full flex justify-center relative">
                   <img 
-                    src="/assets/Meal scanner.png"
+                    src="/assets/Meal scanner.webp"
                     alt="Meal Scanner"
                     className="w-96 h-auto md:w-[28rem] lg:w-[32rem] mx-auto rounded-2xl"
                   />
