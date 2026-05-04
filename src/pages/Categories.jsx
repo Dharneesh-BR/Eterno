@@ -492,7 +492,7 @@ export default function Categories() {
               <p className="text-body text-gray-300 max-w-2xl mx-auto">Meet the visionaries behind Eterno, dedicated to redefining human longevity.</p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
               {/* Founder 1: Dharneesh B R */}
               <div className="bg-white/10 backdrop-blur-lg rounded-2xl shadow-2xl p-8 flex flex-col items-center text-center border border-white/20 hover:shadow-3xl transition-all duration-300 transform hover:-translate-y-1">
                 <div className="relative w-40 h-40 mb-6">

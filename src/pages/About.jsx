@@ -218,12 +218,9 @@ export default function About() {
                 <p>3+ Years of Wellness Practitioner</p>
               </div>
             </div>
-          </div>
 
-          {/* Third Row - Centered */}
-          <div className="flex justify-center mt-10">
             {/* Team Member 7: Likith D */}
-            <div className="bg-white/10 backdrop-blur-lg rounded-2xl shadow-2xl p-8 flex flex-col items-center text-center border border-white/20 hover:shadow-3xl transition-all duration-300 transform hover:-translate-y-1 w-full max-w-sm">
+            <div className="bg-white/10 backdrop-blur-lg rounded-2xl shadow-2xl p-8 flex flex-col items-center text-center border border-white/20 hover:shadow-3xl transition-all duration-300 transform hover:-translate-y-1">
               <div className="relative w-40 h-40 mb-6">
                 <img 
                   src="/assets/Likith D.webp"
@@ -237,6 +234,7 @@ export default function About() {
                 <p>AI & Digital Marketing</p>
               </div>
             </div>
+          </div>
           </div>
 
           {/* Philosophy */}
@@ -562,8 +560,6 @@ export default function About() {
             </div>
           </div>
 
-        </div>
-      
-    </>
-  );
+      </>
+    );
 }
