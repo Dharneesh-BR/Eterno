@@ -9,7 +9,7 @@ import { trackCTAClick, trackViewContent, trackAddToCart } from '../utils/metaPi
 
 const ProductCard = ({ product }) => {
   // Use banner image from Sanity or fallback
-  const backgroundImage = product.bannerImage?.asset?.url || '/assets/Longevity Store.webp';
+  const backgroundImage = product.bannerImage?.asset?.url || '/assets/Longevity Store.png';
   
   // State for zoom functionality
   const [isZoomed, setIsZoomed] = useState(false);
@@ -198,7 +198,7 @@ const Store = () => {
       
       <div className="min-h-screen">
         {/* Hero Section */}
-        <section className="hidden sm:block relative w-full py-40 bg-cover bg-right bg-no-repeat" style={{backgroundImage: "url('/assets/Longevity Store.webp')"}}>
+        <section className="hidden sm:block relative w-full py-40 bg-cover bg-right bg-no-repeat" style={{backgroundImage: "url('/assets/Longevity Store.png')"}}>
           <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/50 to-black/50"></div>
           <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center sm:text-left mb-12">
@@ -235,7 +235,7 @@ const Store = () => {
         </section>
 
         {/* Mobile Banner Section - Below Content */}
-        <section className="sm:hidden relative w-full py-40 bg-cover bg-right bg-no-repeat" style={{backgroundImage: "url('/assets/Longevity Kit.webp')"}}>
+        <section className="sm:hidden relative w-full py-40 bg-cover bg-right bg-no-repeat" style={{backgroundImage: "url('/assets/Longevity Kit.png')"}}>
         </section>
 
         {/* Products Section */}

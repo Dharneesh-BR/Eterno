@@ -764,7 +764,7 @@ async function getProgramById(id) {
       strip,
       programDate,
       programTime,
-      "video": video.asset->{
+      "video": {
         url,
         originalFilename
       },

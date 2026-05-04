@@ -409,7 +409,7 @@ const MobileTimelineSteps = () => {
               <div className="mt-6 p-4 bg-green-50 rounded-lg border border-green-200">
                 <div className="flex flex-col items-center text-center">
                   <img 
-                    src="/assets/Guarntee.webp" 
+                    src="/assets/Guarntee.png" 
                     alt="30-Day Money-Back Guarantee" 
                     className="w-24 h-24 mb-3 object-contain"
                   />

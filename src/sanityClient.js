@@ -64,7 +64,7 @@ export const getProgramBySlug = async (slug) => {
       strip,
       programDate,
       programTime,
-      "video": video.asset->{
+      "video": {
         url,
         originalFilename
       },

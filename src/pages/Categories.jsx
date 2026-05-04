@@ -503,11 +503,11 @@ export default function Categories() {
                   />
                 </div>
                 <h3 className="text-h3 font-bold text-white mb-2">Mr Dharneesh B R</h3>
-                <p className="text-purple-300 text-small mb-4">Co-Founder & Chief Executive Officer</p>
+                <p className="text-purple-300 text-small mb-4">Founder & Chief Executive Officer</p>
                 <div className="text-gray-300 text-sm space-y-2">
                   <p>IIM Lucknow</p>
                   <p>Health Tech Entrepreneur</p>
-                  <p>Ex-Samsung | Philips | Uniliver | GSK</p>
+                  <p>Ex-Samsung | Philips | Unilever | GSK</p>
                 </div>
               </div>
 
@@ -529,23 +529,7 @@ export default function Categories() {
                 </div>
               </div>
 
-              {/* Team Member 3: Dr Usha Kulkarni */}
-              <div className="bg-white/10 backdrop-blur-lg rounded-2xl shadow-2xl p-8 flex flex-col items-center text-center border border-white/20 hover:shadow-3xl transition-all duration-300 transform hover:-translate-y-1">
-                <div className="relative w-40 h-40 mb-6">
-                  <img 
-                    src="/assets/Dr Usha Kulkarni.webp"
-                    alt="Dr Usha Kulkarni"
-                    className="rounded-full w-full h-full object-cover border-4 border-purple-500 shadow-lg object-top-center"
-                  />
-                </div>
-                <h3 className="text-2xl font-bold text-white mb-2">Dr Usha Kulkarni</h3>
-                <p className="text-purple-300 text-md mb-4">Nutrition Advisor & Mentor</p>
-                <div className="text-gray-300 text-sm space-y-2">
-                  <p>PhD in Human Nutrition Education</p>
-                  <p>Ohio State University, USA</p>
-                  <p>25+ Years of Experience in Cancer Nutrition & Healing</p>
-                </div>
-              </div>
+              
             </div>
           </div>
         </section>

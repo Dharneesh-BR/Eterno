@@ -6,7 +6,7 @@
 // Meta Pixel Configuration
 export const META_PIXEL_CONFIG = {
   // Pixel ID (Production)
-  PIXEL_ID: '2390949768036183',
+  PIXEL_ID: '1735823844464583',
   
   // Environment settings
   ENVIRONMENT: import.meta.env.MODE || 'development',
