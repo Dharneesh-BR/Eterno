@@ -77,7 +77,7 @@ const NewLandingPage = () => {
     // Create Razorpay checkout options with error handling
     const options = {
       key: import.meta.env.VITE_RAZORPAY_KEY_ID,
-      amount: 69900, // Amount in paise (₹699)
+      amount: 19900, // Amount in paise (₹199)
       currency: 'INR',
       name: formData.name,
       description: 'Decode Diabetes Program Consultation',
@@ -219,7 +219,7 @@ const NewLandingPage = () => {
               <br />
               Doctor led, AI powered Precision care starting at just 
               <br /><br/>
-              <span className="text-4xl md:text-4xl font-bold text-purple-600">Rs 699/-<br/><span className='text-gray-800 text-2xl'>for 100 Days Program</span></span>
+              <span className="text-4xl md:text-4xl font-bold text-purple-600">Rs 199/-<br/><span className='text-gray-800 text-2xl'>for 100 Days Program</span></span>
             </p>
             
             <button 
@@ -648,11 +648,10 @@ const NewLandingPage = () => {
                   100 Days subscription <br/>at just 
                 </p>
                 <div className="flex items-center justify-center gap-8 mb-8">
-                  <span className="text-5xl md:text-5xl font-bold text-white drop-shadow-lg">Rs 699/-</span>
+                  <span className="text-5xl md:text-5xl font-bold text-white drop-shadow-lg">Rs 199/-</span>
                   
                 </div>
                 
-                <span className="bg-gradient-to-r from-yellow-400 to-orange-400 text-purple-900 px-4 py-2 mb-4 rounded-full text-xl font-bold shadow-lg transform hover:scale-105 transition-all">82% Off</span>
                 <p className="text-2xl py-4 text-white ">
                   Actual price <br/><span className='line-through'>Rs 4000/-</span>
                 </p>
@@ -734,7 +733,7 @@ const NewLandingPage = () => {
                     </div>
                     <div>
                       <h4 className="text-lg font-semibold mb-1 text-white">
-                         One Free Doctor Consultation
+                         On Demand Doctor Consultation
                       </h4>
                       <p className="text-white/90 text-sm">
                          Book in app appointment with our in house Doctor for medical consultation.
@@ -860,10 +859,10 @@ const NewLandingPage = () => {
                     </div>
                     <div>
                       <h4 className="text-lg font-semibold mb-1 text-white">
-                        Doctor Led 2 hour Master Class on Diabetes Reversal 
+                        2 hour Master Class on Diabetes Reversal 
                       </h4>
                       <p className="text-white/90 text-sm">
-                        Learn the science behind Diabetes reversal & Weight balance from Specialized doctors.
+                        Learn the science behind Diabetes reversal & Weight balance.
                       </p>
                     </div>
                   </div>
@@ -1077,7 +1076,7 @@ const NewLandingPage = () => {
               </div>
               
               <div className="bg-purple-600 text-white rounded-lg text-xl py-8 font-bold mt-8 mb-4">
-                        All features listed above <br/>are included in 100 Days subscription at just<br/> Rs 699/-. <br/>without any hidden charges
+                        All features listed above <br/>are included in 100 Days subscription at just<br/> Rs 199/-. <br/>without any hidden charges
                       </div>
                    
             </div>
@@ -1280,7 +1279,7 @@ const NewLandingPage = () => {
           <div className="max-w-6xl mx-auto text-center">
             <div className="mb-8 flex justify-center">
               <img 
-                src="/assets/mission-diabetes-free-india.png" 
+                src="/assets/mission-diabetes-free-india.webp" 
                 alt="Mission Diabetes Free India" 
                 className="w-full max-w-2xl h-auto object-contain"
               />
@@ -1295,7 +1294,7 @@ const NewLandingPage = () => {
             
             <div className="max-w-4xl mx-auto mb-12">
               <p className="text-xl text-gray-700 leading-relaxed mb-8">
-                Affordable diabetes care at just <span className='font-bold'>₹699/- for 100 Days</span>. Making diabetes Reversal Smart, Accessible and affordable for every Indian.
+                Affordable diabetes care at just <span className='font-bold'>₹199/- for 100 Days</span>. Making diabetes Reversal Smart, Accessible and affordable for every Indian.
               </p>
               <p className="text-xl text-gray-700 leading-relaxed mb-8">
                 India has one of the highest numbers of diabetes patients in the world.
@@ -1353,10 +1352,9 @@ const NewLandingPage = () => {
                   100 Days subscription <br/>at just 
                 </p>
                 <div className="flex items-center justify-center gap-8 mb-8">
-                  <span className="text-5xl md:text-5xl font-bold text-white drop-shadow-lg">Rs 699/-</span>
+                  <span className="text-5xl md:text-5xl font-bold text-white drop-shadow-lg">Rs 199/-</span>
                   
                 </div>
-                <span className="bg-gradient-to-r from-yellow-400 to-orange-400 text-purple-900 px-4 py-2 mb-4 rounded-full text-xl font-bold shadow-lg transform hover:scale-105 transition-all">82% Off</span>
                 <p className="text-2xl py-4 text-white ">
                   Actual price <br/><span className='line-through'>Rs 4000/-</span>
                 </p>
@@ -1364,7 +1362,7 @@ const NewLandingPage = () => {
               <div className="mt-6 p-4 bg-green-50 rounded-lg border border-green-200">
                   <div className="flex flex-col items-center text-center">
                     <img 
-                      src="/assets/Guarntee.png" 
+                      src="/assets/Guarntee.webp" 
                       alt="30-Day Money-Back Guarantee" 
                       className="w-24 h-24 mb-3 object-contain"
                     />
@@ -1617,7 +1615,7 @@ const NewLandingPage = () => {
                   type="submit"
                   className="w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white py-3 rounded-lg font-semibold hover:from-purple-700 hover:to-blue-700 transition-all duration-300 transform hover:scale-105 shadow-lg"
                 >
-                  Proceed to Payment - ₹699
+                  Proceed to Payment - ₹199
                 </button>
                 
                 <div className="mt-6 p-4 bg-green-50 rounded-lg border border-green-200">
@@ -1951,7 +1949,7 @@ const NewLandingPage = () => {
         className="fixed bottom-0 left-0 right-0 bg-gradient-to-r from-purple-600 to-blue-600 text-white px-6 py-4 rounded-full font-bold hover:from-purple-700 hover:to-blue-700 transition-all duration-300 transform hover:scale-105 shadow-2xl z-40 flex items-center justify-center gap-2 md:py-6"
       >
         <div className="flex flex-col items-center justify-center gap-2">
-        <span className="text-xl md:text-2xl font-bold">Join now @ Just ₹699/- </span>
+        <span className="text-xl md:text-2xl font-bold">Join now @ Just ₹199/- </span>
         <span className="text-white font-bold text-xl md:text-2xl">
           ⏰ Offer ends in {sessionTime}
         </span>
